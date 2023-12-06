@@ -41,7 +41,7 @@ func StartGui(mixer *oscillator.Mixer) {
 	toolbar := widget.NewToolbar(
 		widget.NewToolbarAction(theme.ContentAddIcon(), insertNewOscillator),
 		widget.NewToolbarSpacer(),
-		widget.NewToolbarAction(theme.InfoIcon(), ShowAboutBox(win, "1.0")),
+		widget.NewToolbarAction(theme.InfoIcon(), ShowAboutBox(win, "0.1.0")),
 	)
 
 	rows := container.New(layout.NewVBoxLayout(), toolbar, columns)
