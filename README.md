@@ -1,7 +1,6 @@
 # Microwave
 
-*MICROWAVE* (pronounced me-crow-wa-vè) is a simple signal generator written in Golang. It is capable of generating sine waves, as well as families of triangular and rectangular waves. This tool has been developed to assist with electronics workshops held at [Decentrala](https://dmz.rs/).
-
+*MICROWAVE* (pronounced me-crow-wa-vè) is a simple signal generator written in Golang. It is capable of generating sine wave, as well as families of triangular and rectangular waves. This tool has been developed for  electronics workshops held at [Decentrala](https://dmz.rs/en/index) where is used instead proper signal generator.
 
 ![User interface](ui.png)
 
@@ -14,7 +13,7 @@ go mod download
 go build
 ```
 
-The application is should work on Linux, Windows, and OSX. It is only tested on Linux.
+The application should work on Linux, Windows, and OSX. It is only tested on Linux.
 
 ## Todo
 
@@ -24,7 +23,7 @@ The application is should work on Linux, Windows, and OSX. It is only tested on 
 - [ ] Create a custom slider
 - [ ] Add functionality for saving and loading setups
 - [ ] Implement a waveform graph
-- [ ] Reduce latency. Check why pipewire does't allow shorter buffers.
+- [ ] Reduce latency. Check why pipewire doesn't allow shorter buffers.
 
 ## License
 
