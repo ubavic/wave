@@ -162,7 +162,7 @@ func (O *Oscillator) Read(buf []byte) (int, error) {
 			if signal <= O.skew {
 				signal = 2 / O.skew * (signal - O.skew/2)
 			} else {
-				signal = 2 / (1 - O.skew) * (signal - (O.skew+1)/2)
+				signal = 2 / (1 - O.skew) * ((O.skew+1)/2 - signal)
 			}
 
 			sample = int16(signal * leftAmplitude)

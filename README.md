@@ -17,7 +17,6 @@ The application should work on Linux, Windows, and OSX. It is only tested on Lin
 
 ## Todo
 
-- [ ] Check all waveforms on an oscilloscope
 - [ ] Fix bugs with phase.
 - [ ] Implement a log scale slider for frequency and pitch input (e.g., `A#2` or `C4`)
 - [ ] Create a custom slider
