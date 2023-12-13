@@ -133,24 +133,27 @@ func oscillatorUI(osc *oscillator.Oscillator) *widgets.Stack {
 	panGroup := container.New(layout.NewVBoxLayout(), panContainer, panSlider)
 
 	shapesChooser := widgets.NewChooser(shapes, func(s string) {
-		osc.SetShape(s)
 		switch s {
 		case "SINE":
+			osc.SetShape(oscillator.SineShape)
 			freqGroup.Show()
 			phaseGroup.Show()
 			dutyGroup.Hide()
 			skewGroup.Hide()
 		case "TRIANGLE":
+			osc.SetShape(oscillator.TriangularShape)
 			freqGroup.Show()
 			phaseGroup.Show()
 			dutyGroup.Hide()
 			skewGroup.Show()
 		case "RECTANGLE":
+			osc.SetShape(oscillator.RectangularShape)
 			freqGroup.Show()
 			phaseGroup.Show()
 			dutyGroup.Show()
 			skewGroup.Hide()
 		case "NOISE":
+			osc.SetShape(oscillator.NoiseShape)
 			freqGroup.Hide()
 			phaseGroup.Hide()
 			dutyGroup.Hide()

@@ -7,6 +7,15 @@ import (
 	"github.com/ebitengine/oto/v3"
 )
 
+type Shape uint8
+
+const (
+	SineShape Shape = iota
+	TriangularShape
+	RectangularShape
+	NoiseShape
+)
+
 type Oscillator struct {
 	amplitude float64
 	duty      float64
@@ -14,7 +23,7 @@ type Oscillator struct {
 	phase     float64
 	pan       float64
 	skew      float64
-	shape     uint8
+	shape     Shape
 
 	position   float64
 	sampleRate float64
@@ -37,31 +46,15 @@ func NewOscillator(context *oto.Context, sampleRate int) *Oscillator {
 	return o
 }
 
-func (O *Oscillator) Shape() string {
-	switch O.shape {
-	case 0:
-		return "SINE"
-	case 1:
-		return "TRIANGLE"
-	case 2:
-		return "RECTANGLE"
-	case 255:
-		return "NOISE"
-	default:
-		return "SINE"
-	}
+func (O *Oscillator) Shape() Shape {
+	return O.shape
 }
 
-func (O *Oscillator) SetShape(shape string) {
-	switch shape {
-	case "SINE":
-		O.shape = 0
-	case "TRIANGLE":
-		O.shape = 1
-	case "RECTANGLE":
-		O.shape = 2
-	case "NOISE":
-		O.shape = 255
+func (O *Oscillator) SetShape(shape Shape) {
+	if shape <= NoiseShape {
+		O.shape = shape
+	} else {
+		O.shape = SineShape
 	}
 }
 
@@ -145,7 +138,7 @@ func (O *Oscillator) Read(buf []byte) (int, error) {
 	bufLen := len(buf) / (2 * 2)
 
 	switch O.shape {
-	case 0: // Sine
+	case SineShape:
 		for i := 0; i < bufLen; i++ {
 			signal = math.Sin(O.frequency * (O.position + float64(i) + 2*math.Pi*O.phase) / O.sampleRate * 2 * math.Pi)
 
@@ -156,7 +149,7 @@ func (O *Oscillator) Read(buf []byte) (int, error) {
 			buf[4*i+2] = byte(sample)
 			buf[4*i+3] = byte(sample >> 8)
 		}
-	case 1: // Triangle
+	case TriangularShape:
 		for i := 0; i < bufLen; i++ {
 			signal = math.Mod(O.frequency*(O.position+float64(i)+O.phase)/O.sampleRate, 1.0)
 			if signal <= O.skew {
@@ -172,7 +165,7 @@ func (O *Oscillator) Read(buf []byte) (int, error) {
 			buf[4*i+2] = byte(sample)
 			buf[4*i+3] = byte(sample >> 8)
 		}
-	case 2: // Rectangle
+	case RectangularShape:
 		for i := 0; i < bufLen; i++ {
 			signal = math.Mod(O.frequency*(O.position+float64(i)+O.phase)/O.sampleRate, 1.0)
 			if signal < O.duty {
@@ -188,7 +181,7 @@ func (O *Oscillator) Read(buf []byte) (int, error) {
 			buf[4*i+2] = byte(sample)
 			buf[4*i+3] = byte(sample >> 8)
 		}
-	default:
+	case NoiseShape:
 		for i := 0; i < bufLen; i++ {
 			signal = rand.Float64()*2 - 1
 
